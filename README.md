@@ -4,7 +4,6 @@
 --- 
 ![image](https://github.com/blueeye09/Techit_Android/assets/105341431/91bf83e2-5d16-42bb-9e3a-9448340a9616)
 
-2024.02.01
-- Thread
+### 2024.02.01
 - BroadCast Receiver
 - Service
