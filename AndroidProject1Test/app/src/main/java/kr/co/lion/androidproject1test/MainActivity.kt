@@ -1,8 +1,11 @@
 package kr.co.lion.androidproject1test
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -13,14 +16,34 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var activityMainBinding: ActivityMainBinding
 
+    lateinit var inputActivityLauncher: ActivityResultLauncher<Intent>
+
+    lateinit var showActivityLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
+        setLauncher()
         setToolbar()
         setView()
+        setEvent()
+    }
+
+    fun setLauncher(){
+        // InputActivity 런처
+        val contract1 = ActivityResultContracts.StartActivityForResult()
+        inputActivityLauncher = registerForActivityResult(contract1){
+
+        }
+
+        // ShowActivity 런쳐
+        val contract2 = ActivityResultContracts.StartActivityForResult()
+        showActivityLauncher = registerForActivityResult(contract2){
+
+        }
     }
 
     // 툴바 설정
@@ -51,6 +74,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // 이벤트 설정
+    fun setEvent(){
+        activityMainBinding.apply {
+            // FloatActionButton
+            fabMainAdd.setOnClickListener {
+                // InputActivity를 실행한다.
+                val inputIntent = Intent(this@MainActivity, InputActivity::class.java)
+                inputActivityLauncher.launch(inputIntent)
+            }
+        }
+    }
+
     // RecyclerView의 어댑터
     inner class RecyclerViewMainAdapter: RecyclerView.Adapter<RecyclerViewMainAdapter.ViewHolderMain>(){
         // ViewHolder
@@ -64,6 +99,12 @@ class MainActivity : AppCompatActivity() {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
+
+                // 항목을 누르면 ShowActivity를 실행한다.
+                this.rowMainBinding.root.setOnClickListener{
+                    val showIntent = Intent(this@MainActivity, ShowActivity::class.java)
+                    showActivityLauncher.launch(showIntent)
+                }
 
             }
         }
