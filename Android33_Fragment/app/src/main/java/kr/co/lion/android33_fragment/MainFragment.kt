@@ -18,7 +18,7 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         fragmentMainBinding = FragmentMainBinding.inflate(inflater)
         // fragmentMainBinding = FragmentMainBinding.inflate(layoutInflater)
@@ -45,7 +45,8 @@ class MainFragment : Fragment() {
                 bundle.putInt("data1", 100)
                 bundle.putDouble("data2", 11.11)
                 bundle.putString("data3", "String1")
-                mainActivity.replaceFragment(FragmentName.INPUT_FRAGMENT, true, true, bundle)
+                mainActivity.replaceFragment(FragmentName.INPUT_FRAGMENT, addToBackStack = true,
+                    isAnimate = true, data = bundle)
             }
         }
     }
